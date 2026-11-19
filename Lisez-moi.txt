@@ -1,0 +1,13 @@
+Projet de test des contrôles graphiques de WPF.
+L'objectif est de vérifier leur accessibilité avec un lecteur d'écran.
+
+Pour certains contrôles, des configurations ou des correctifs sont proposés.
+Cette liste n'est pas exhaustive et provient de recherches extérieures et de mes essais.
+
+Toutes les améliorations sont activées au lancement de l'application.
+Pour constater le comportement initial, des menus contextuels permettent de désactiver les correctifs et les configurations.
+
+L'application de test est compilée sur une version récente du framework de Microsoft, .NET 10.
+Toutefois, des adaptations du codes ont été faites pour une compilation sans erreur avec le framework .net 4.8
+
+SDK utilisé : winget install Microsoft.DotNet.SDK.10

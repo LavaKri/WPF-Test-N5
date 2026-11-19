@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Projet de contrôle, sans exécutable utile : compile les fichiers de Correctifs comme le ferait un projet
+       quelconque qui les reprend, pour vérifier qu'ils restent autonomes (CLAUDE.md, Dossiers) :
+       C# 7.3, using explicites (pas de using implicites), aucune dépendance à AccessTest.
+       La compilation échoue sur toute syntaxe postérieure à C# 7.3 ou tout using manquant.
+       Les analyseurs tournent déjà dans AccessTest.csproj : coupés ici pour ne pas répéter leurs avertissements. -->
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <UseWPF>true</UseWPF>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <RunAnalyzers>false</RunAnalyzers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Correctifs\*.cs" Link="Correctifs\%(Filename)%(Extension)" />
+    <PackageReference Include="Lib.Harmony" Version="2.4.3" />
+  </ItemGroup>
+
+</Project>

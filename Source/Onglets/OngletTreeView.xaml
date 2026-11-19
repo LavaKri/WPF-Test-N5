@@ -1,0 +1,71 @@
+<UserControl x:Class="AccessTest.OngletTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AccessTest"
+             xmlns:cw="clr-namespace:CorrectifsWpf">
+
+    <UserControl.Resources>
+        <!-- DataTemplate, pas ControlTemplate (Specs/TreeView.md, 3) : les nœuds viennent de la source Noeud. -->
+        <HierarchicalDataTemplate x:Key="ModeleNoeud" ItemsSource="{Binding Enfants}">
+            <TextBlock Text="{Binding Nom}"/>
+        </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate x:Key="ModeleNoeudCase" ItemsSource="{Binding Enfants}">
+            <!-- « Corriger les cases » coché : la case n'est plus un arrêt de focus (Specs/TreeView.md, 5). -->
+            <CheckBox Content="{Binding Nom}" IsChecked="{Binding EstCoche, Mode=TwoWay}"
+                      Focusable="{Binding CaseFocalisable, Source={x:Static local:CorrectionCases.Instance}}"
+                      IsTabStop="{Binding CaseFocalisable, Source={x:Static local:CorrectionCases.Instance}}"/>
+        </HierarchicalDataTemplate>
+        <!-- Style implicite : s'applique à tous les niveaux des deux arbres. -->
+        <Style TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="{Binding EstDeveloppe, Mode=TwoWay}"/>
+            <Setter Property="IsSelected" Value="{Binding EstSelectionne, Mode=TwoWay}"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="LblArbMenu" Grid.Row="0" Grid.Column="0" Margin="0,0,10,4"/>
+        <TreeView x:Name="ArbMenu" Grid.Row="1" Grid.Column="0" Margin="0,0,10,0"
+                  ItemTemplate="{StaticResource ModeleNoeud}">
+            <TreeView.ContextMenu>
+                <ContextMenu x:Name="CtxArbre">
+                    <MenuItem x:Name="MnuArbDevelopper" Click="ArbDevelopper_Click"/>
+                    <MenuItem x:Name="MnuArbReduire" Click="ArbReduire_Click"/>
+                    <MenuItem x:Name="MnuArbAjouter" Click="ArbAjouter_Click"/>
+                    <MenuItem x:Name="MnuArbProfond" Click="ArbProfond_Click"/>
+                </ContextMenu>
+            </TreeView.ContextMenu>
+        </TreeView>
+
+        <TextBlock x:Name="LblArbCases" Grid.Row="0" Grid.Column="1" Margin="10,0,0,4"/>
+        <!-- TreeView dérivé : motif UIA Toggle sur les nœuds quand « Corriger les cases » est coché (Specs/TreeView.md, 5). -->
+        <cw:CorrectifArbreCases x:Name="ArbCases" Grid.Row="1" Grid.Column="1" Margin="10,0,0,0"
+                                ItemTemplate="{StaticResource ModeleNoeudCase}">
+            <cw:CorrectifArbreCases.Resources>
+                <!-- Les nœuds sont des NoeudACocher : on reprend le style des nœuds de l'onglet et on lie leur état. -->
+                <Style TargetType="cw:NoeudACocher" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                    <Setter Property="IsChecked" Value="{Binding EstCoche, Mode=TwoWay}"/>
+                </Style>
+            </cw:CorrectifArbreCases.Resources>
+            <cw:CorrectifArbreCases.ContextMenu>
+                <ContextMenu x:Name="CtxCases">
+                    <MenuItem x:Name="MnuCasDevelopper" Click="ArbDevelopper_Click"/>
+                    <MenuItem x:Name="MnuCasReduire" Click="ArbReduire_Click"/>
+                    <MenuItem x:Name="MnuCasAjouter" Click="ArbAjouter_Click"/>
+                    <MenuItem x:Name="MnuCasProfond" Click="ArbProfond_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="MnuCasCorriger" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem x:Name="MnuCasPropager" IsCheckable="True"/>
+                </ContextMenu>
+            </cw:CorrectifArbreCases.ContextMenu>
+        </cw:CorrectifArbreCases>
+    </Grid>
+</UserControl>

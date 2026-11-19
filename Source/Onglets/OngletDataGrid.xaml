@@ -1,0 +1,54 @@
+<UserControl x:Class="AccessTest.OngletDataGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolVersVisibilite"/>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="LblCommandes" Grid.Row="0" Margin="0,0,0,4"/>
+        <!-- Colonnes déclarées (Specs/DataGrid.md, 5) ; tabulation et tri au clavier : CorrectifGrille (7). -->
+        <DataGrid x:Name="GrdCommandes" Grid.Row="1" AutoGenerateColumns="False"
+                  CanUserAddRows="True" CanUserDeleteRows="True">
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="CtxGrille">
+                    <MenuItem x:Name="MnuGrlUnArret" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem x:Name="MnuGrlEntetes" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem x:Name="MnuGrlNoms" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem x:Name="MnuGrlUneLecture" IsCheckable="True" IsChecked="True"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="ColNumero" Binding="{Binding Numero}" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="ColClient" Binding="{Binding Client}"/>
+                <DataGridTextColumn x:Name="ColDate" Binding="{Binding Date, StringFormat=d}" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="ColMontant" Binding="{Binding Montant, StringFormat='{}{0:N2} €'}" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridCheckBoxColumn x:Name="ColPayee" Binding="{Binding Payee}"/>
+                <DataGridComboBoxColumn x:Name="ColStatut" SelectedValueBinding="{Binding Statut}"
+                                        SelectedValuePath="Valeur" DisplayMemberPath="Texte"/>
+                <!-- Icône seule, aucun texte : nom accessible vide, constat à relever (Q12). -->
+                <DataGridTemplateColumn x:Name="ColPriorite" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Polygon Points="0,12 7,0 14,12" HorizontalAlignment="Center" Margin="0,2"
+                                     Fill="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
+                                     Visibility="{Binding Prioritaire, Converter={StaticResource BoolVersVisibilite}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

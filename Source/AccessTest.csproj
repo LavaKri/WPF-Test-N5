@@ -1,0 +1,105 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Un seul projet, deux cibles : mêmes sources pour .NET 10 et .NET Framework 4.8 (Specs/Specs.md).
+       Pas de syntaxe ni d'API réservée à une seule cible ; sinon, réflexion (voir RaiseNotificationEvent). -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net10.0-windows;net48</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>AccessTest</RootNamespace>
+    <!-- Seule source du nom et de la version affichés (titre de la fenêtre, boîte « À propos ») : lus à l'exécution
+         dans les attributs de l'assembly (Textes.NomApplication, Textes.VersionApplication). Le nom du fichier
+         exécutable reste celui du projet (AccessTest.exe). -->
+    <Product>WPF-Test-N5</Product>
+    <Version>0.1</Version>
+  </PropertyGroup>
+
+  <!-- Analyse du code à la compilation, pour les deux cibles (EnableNETAnalyzers : sinon absente en net48).
+       Règles et exceptions dans le .editorconfig de la racine. -->
+  <PropertyGroup>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <!-- Binaires à la racine du dépôt, un dossier par cible puis par configuration : Net10\Debug, Net48\Release…
+       AppendTargetFrameworkToOutputPath retire aussi la cible du dossier intermédiaire (obj) : il faut le redonner
+       à chaque cible, sinon elles partagent obj\Debug et le XAML compilé (BAML) de l'une passe dans l'autre
+       (l'exe 4.8 plantait au démarrage, assembly de .NET 10 introuvable). -->
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
+    <OutputPath>..\Net10\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\net10.0-windows\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
+    <OutputPath>..\Net48\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\net48\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <!-- Lisez-moi.txt intégré à l'exécutable, chargé au démarrage dans le TextBox (Specs/Fenetre.md, 2.5). -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\Lisez-moi.txt" LogicalName="Lisez-moi.txt" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable des lignes vides (dossier commun Correctifs), il exige Harmony. -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifLigneVide.cs" Link="Correctifs\CorrectifLigneVide.cs" />
+    <PackageReference Include="Lib.Harmony" Version="2.4.3" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable de la barre d'état introuvable par NVDA (sans dépendance). -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifBarreEtat.cs" Link="Correctifs\CorrectifBarreEtat.cs" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable des cases à cocher d'un TreeView, invisibles pour NVDA (sans dépendance). -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifArbreCases.cs" Link="Correctifs\CorrectifArbreCases.cs" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable du piège Maj+Tab d'un Calendar (sans dépendance). -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifCalendrier.cs" Link="Correctifs\CorrectifCalendrier.cs" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable des items de menu indisponibles, sautés au clavier (patch Harmony). -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifMenuIndisponible.cs" Link="Correctifs\CorrectifMenuIndisponible.cs" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable des raccourcis de menu jamais annoncés (patch Harmony). -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifRaccourciMenu.cs" Link="Correctifs\CorrectifRaccourciMenu.cs" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable de la lecture d'un RichTextBox : titres et liens (patch Harmony). -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifLectureRiche.cs" Link="Correctifs\CorrectifLectureRiche.cs" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable du piège Tab d'une ToolBar (sans dépendance). -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifBarreOutils.cs" Link="Correctifs\CorrectifBarreOutils.cs" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable de la tabulation et du tri au clavier d'un DataGrid (sans dépendance). -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifGrille.cs" Link="Correctifs\CorrectifGrille.cs" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable des touches d'accès exposées par la lettre seule (patch Harmony). -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifToucheAcces.cs" Link="Correctifs\CorrectifToucheAcces.cs" />
+  </ItemGroup>
+
+  <!-- Correctif réutilisable d'un lien seul dans un TextBlock, lu deux fois (patch Harmony). -->
+  <ItemGroup>
+    <Compile Include="..\Correctifs\CorrectifLienSeul.cs" Link="Correctifs\CorrectifLienSeul.cs" />
+  </ItemGroup>
+
+</Project>

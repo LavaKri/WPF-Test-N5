@@ -1,0 +1,9 @@
+<UserControl x:Class="AccessTest.OngletTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Menu contextuel partagé avec le RichTextBox (Specs/Fenetre.md, 2.7) : posé par MenuEditeurs.Brancher. -->
+    <TextBox x:Name="TxtEditeur"
+             AcceptsReturn="True" TextWrapping="Wrap"
+             VerticalScrollBarVisibility="Auto"/>
+</UserControl>

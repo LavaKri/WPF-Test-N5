@@ -1,0 +1,104 @@
+<Window x:Class="AccessTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:AccessTest"
+        Height="600" Width="900"
+        WindowState="Maximized"
+        Loaded="Window_Loaded">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Open" CanExecute="Fichier_CanExecute" Executed="Ouvrir_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Save" CanExecute="Fichier_CanExecute" Executed="Enregistrer_Executed"/>
+    </Window.CommandBindings>
+
+    <!-- Les textes (en-têtes, noms accessibles) sont posés par MainWindow.AppliquerLangue(). -->
+    <DockPanel>
+
+        <Menu DockPanel.Dock="Top" IsTabStop="False" KeyboardNavigation.TabNavigation="None">
+            <MenuItem x:Name="MnuFichier">
+                <!-- Commandes standard : Ctrl+O et Ctrl+S, item grisé hors des onglets TextBox et RichText. Les items grisés
+                     restent atteignables au clavier grâce au menu Correctif (Specs/Fenetre.md 2.1 et Specs/Correctifs.md). -->
+                <MenuItem x:Name="MnuOuvrir" Command="ApplicationCommands.Open"/>
+                <MenuItem x:Name="MnuEnregistrer" Command="ApplicationCommands.Save"/>
+                <MenuItem x:Name="MnuChoixDossier" Click="ChoixDossier_Click"/>
+                <MenuItem x:Name="MnuToujoursGrisee" IsEnabled="False" Click="ToujoursGrisee_Click"/>
+                <Separator/>
+                <MenuItem x:Name="MnuLangue">
+                    <MenuItem x:Name="MnuFR" Header="FR" IsCheckable="True" Click="Langue_Click"/>
+                    <MenuItem x:Name="MnuEN" Header="EN" IsCheckable="True" Click="Langue_Click"/>
+                </MenuItem>
+                <Separator/>
+                <MenuItem x:Name="MnuQuitter" Click="Quitter_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="MnuEdition">
+                <MenuItem x:Name="MnuAnnuler" Command="ApplicationCommands.Undo"/>
+                <MenuItem x:Name="MnuRetablir" Command="ApplicationCommands.Redo"/>
+                <Separator/>
+                <MenuItem x:Name="MnuCouper" Command="ApplicationCommands.Cut"/>
+                <MenuItem x:Name="MnuCopier" Command="ApplicationCommands.Copy"/>
+                <MenuItem x:Name="MnuColler" Command="ApplicationCommands.Paste"/>
+                <Separator/>
+                <MenuItem x:Name="MnuToutSel" Command="ApplicationCommands.SelectAll"/>
+            </MenuItem>
+            <MenuItem x:Name="MnuCorrectif">
+                <MenuItem x:Name="MnuLignesVides" IsCheckable="True"
+                          Checked="LignesVides_Change" Unchecked="LignesVides_Change"/>
+                <MenuItem x:Name="MnuBarreEtat" IsCheckable="True"
+                          Checked="BarreEtat_Change" Unchecked="BarreEtat_Change"/>
+                <MenuItem x:Name="MnuCalendrier" IsCheckable="True"
+                          Checked="Calendrier_Change" Unchecked="Calendrier_Change"/>
+                <MenuItem x:Name="MnuBarreOutils" IsCheckable="True"
+                          Checked="BarreOutils_Change" Unchecked="BarreOutils_Change"/>
+                <MenuItem x:Name="MnuItemsIndisponibles" IsCheckable="True"
+                          Checked="ItemsIndisponibles_Change" Unchecked="ItemsIndisponibles_Change"/>
+                <MenuItem x:Name="MnuRaccourcisMenus" IsCheckable="True"
+                          Checked="RaccourcisMenus_Change" Unchecked="RaccourcisMenus_Change"/>
+                <MenuItem x:Name="MnuLectureRiche" IsCheckable="True"
+                          Checked="LectureRiche_Change" Unchecked="LectureRiche_Change"/>
+                <MenuItem x:Name="MnuTouchesAcces" IsCheckable="True"
+                          Checked="TouchesAcces_Change" Unchecked="TouchesAcces_Change"/>
+                <Separator/>
+                <MenuItem x:Name="MnuActiverTous" Click="ActiverTous_Click"/>
+                <MenuItem x:Name="MnuDesactiverTous" Click="DesactiverTous_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="MnuAide">
+                <MenuItem x:Name="MnuAPropos" Click="APropos_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem MinWidth="220">
+                <TextBlock x:Name="StatutPosition"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem MinWidth="160">
+                <TextBlock x:Name="StatutType"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <TabControl x:Name="TabPrincipal">
+            <TabItem x:Name="TabTextBox" Header="TextBox">
+                <local:OngletTextBox x:Name="ContenuTextBox"/>
+            </TabItem>
+            <TabItem x:Name="TabRichText" Header="RichText">
+                <local:OngletRichText x:Name="ContenuRichText"/>
+            </TabItem>
+            <TabItem x:Name="TabUsuels" Header="Usuels">
+                <local:OngletUsuels x:Name="ContenuUsuels"/>
+            </TabItem>
+            <TabItem x:Name="TabChoix" Header="Choix">
+                <local:OngletChoix x:Name="ContenuChoix"/>
+            </TabItem>
+            <TabItem x:Name="TabTreeView" Header="TreeView">
+                <local:OngletTreeView x:Name="ContenuTreeView"/>
+            </TabItem>
+            <TabItem x:Name="TabDataGrid" Header="DataGrid">
+                <local:OngletDataGrid x:Name="ContenuDataGrid"/>
+            </TabItem>
+            <TabItem x:Name="TabAnnonce" Header="Annonce">
+                <local:OngletAnnonce x:Name="ContenuAnnonce"/>
+            </TabItem>
+        </TabControl>
+
+    </DockPanel>
+</Window>

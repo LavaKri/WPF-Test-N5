@@ -1,0 +1,29 @@
+<!-- Menu contextuel partagé par le TextBox et le RichTextBox (Specs/Fenetre.md, 2.7) : une seule instance, un seul état. -->
+<ContextMenu x:Class="AccessTest.MenuEditeurs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="CtxEditeur">
+
+    <MenuItem x:Name="MnuOrthographe" IsCheckable="True"
+              Checked="Orthographe_Change" Unchecked="Orthographe_Change"/>
+    <MenuItem x:Name="MnuFauteSuivante" IsEnabled="False" Click="FauteSuivante_Click"/>
+    <MenuItem x:Name="MnuTabulation" IsCheckable="True"
+              Checked="Tabulation_Change" Unchecked="Tabulation_Change"/>
+    <!-- TextBox seulement : masqué depuis le RichTextBox (Specs/Fenetre.md, 2.7.3). Coché dans le XAML :
+         gestionnaires branchés dans le constructeur. -->
+    <MenuItem x:Name="MnuRetourLigne" IsCheckable="True" IsChecked="True"/>
+    <!-- RichTextBox seulement : masqué depuis le TextBox (Specs/Fenetre.md, 2.7.4). Choix exclusif,
+         gestionnaires branchés dans le constructeur. -->
+    <MenuItem x:Name="MnuLargeur">
+        <MenuItem x:Name="MnuLargeurFenetre" IsCheckable="True" IsChecked="True"/>
+        <MenuItem x:Name="MnuLargeurEtroite" IsCheckable="True"/>
+        <MenuItem x:Name="MnuLargeurLarge" IsCheckable="True"/>
+    </MenuItem>
+    <!-- RichTextBox seulement (Specs/Fenetre.md, 2.7.5). L'item de lecture est lié à celui du menu principal
+         Correctif (LierLectureRiche) ; Document interactif : IsDocumentEnabled, coché au démarrage
+         (gestionnaires branchés dans le constructeur). -->
+    <MenuItem x:Name="MnuCtxCorrectif">
+        <MenuItem x:Name="MnuCtxLectureRiche" IsCheckable="True"/>
+        <MenuItem x:Name="MnuDocInteractif" IsCheckable="True" IsChecked="True"/>
+    </MenuItem>
+</ContextMenu>

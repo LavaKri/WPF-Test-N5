@@ -1,0 +1,68 @@
+<UserControl x:Class="AccessTest.OngletAnnonce"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Margin="20" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style x:Key="Libelle" TargetType="TextBlock">
+                <Setter Property="TextAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0,0,10,0"/>
+            </Style>
+        </Grid.Resources>
+
+        <TextBlock x:Name="LblSortie" Style="{StaticResource Libelle}" Grid.Row="0" Grid.Column="0"/>
+        <ComboBox x:Name="CmbSortie" Grid.Row="0" Grid.Column="1" Margin="0,4" SelectedIndex="0">
+            <ComboBoxItem x:Name="ItmSortieAucune"/>
+            <ComboBoxItem x:Name="ItmSortieNotification"/>
+            <ComboBoxItem x:Name="ItmSortieRegion"/>
+            <ComboBoxItem x:Name="ItmSortieFocus"/>
+        </ComboBox>
+
+        <!-- Listes remplies par le code avec les valeurs des énumérations de WPF (Specs/Annonce.md, 2). -->
+        <TextBlock x:Name="LblType" Style="{StaticResource Libelle}" Grid.Row="1" Grid.Column="0"/>
+        <ComboBox x:Name="CmbType" Grid.Row="1" Grid.Column="1" Margin="0,4" IsEnabled="False"/>
+
+        <TextBlock x:Name="LblTraitement" Style="{StaticResource Libelle}" Grid.Row="2" Grid.Column="0"/>
+        <ComboBox x:Name="CmbTraitement" Grid.Row="2" Grid.Column="1" Margin="0,4" IsEnabled="False"/>
+
+        <TextBlock x:Name="LblPolitesse" Style="{StaticResource Libelle}" Grid.Row="3" Grid.Column="0"/>
+        <ComboBox x:Name="CmbPolitesse" Grid.Row="3" Grid.Column="1" Margin="0,4" IsEnabled="False"/>
+
+        <TextBlock x:Name="LblMessage" Style="{StaticResource Libelle}" Grid.Row="4" Grid.Column="0"/>
+        <TextBox x:Name="TxtMessage" Grid.Row="4" Grid.Column="1" Margin="0,4"/>
+
+        <Button x:Name="BtnAnnoncer" Grid.Row="5" Grid.Column="1" Margin="0,4"
+                HorizontalAlignment="Left" MinWidth="120" Padding="12,3" IsEnabled="False"
+                Click="Annoncer_Click"/>
+
+        <ToggleButton x:Name="TglRepeter" Grid.Row="6" Grid.Column="1" Margin="0,4"
+                      HorizontalAlignment="Left" MinWidth="120" Padding="12,3" IsEnabled="False"
+                      Checked="Repeter_Checked" Unchecked="Repeter_Unchecked"/>
+
+        <!-- Toujours actif : on lance la répétition, puis on ouvre la boîte (Specs/Annonce.md, 3.5). -->
+        <Button x:Name="BtnDialogue" Grid.Row="7" Grid.Column="1" Margin="0,4"
+                HorizontalAlignment="Left" MinWidth="120" Padding="12,3"
+                Click="Dialogue_Click"/>
+
+        <!-- Région vivante : aucun nom accessible posé, son nom est son texte (Specs/Annonce.md, 3.3). -->
+        <TextBlock x:Name="LblDerniere" Style="{StaticResource Libelle}" Grid.Row="8" Grid.Column="0"
+                   VerticalAlignment="Top" Margin="0,8,10,0"/>
+        <TextBlock x:Name="TxtDerniere" Grid.Row="8" Grid.Column="1" Margin="0,8,0,4" TextWrapping="Wrap"/>
+    </Grid>
+</UserControl>

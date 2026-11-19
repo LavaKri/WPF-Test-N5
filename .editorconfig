@@ -1,0 +1,74 @@
+# Règles de style et d'analyse, lues par dotnet build, dotnet format et les éditeurs.
+# Elles décrivent le style déjà en usage dans Source et Correctifs (CLAUDE.md, Commandes).
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Le dépôt stocke tout en LF ; sur la copie de travail Windows (core.autocrlf), CRLF.
+[*.{cs,xaml,csproj,props,targets}]
+end_of_line = crlf
+
+[*.{xaml,csproj,props,targets}]
+indent_size = 2
+
+[*.cs]
+indent_size = 4
+
+# --- Mise en forme (vérifiée par dotnet format whitespace) ---
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_preserve_single_line_blocks = true
+csharp_preserve_single_line_statements = false
+dotnet_sort_system_directives_first = true
+
+# --- Préférences de style : suggestions dans l'éditeur, sans bloquer la compilation ---
+csharp_style_namespace_declarations = file_scoped:suggestion
+csharp_prefer_braces = true:suggestion
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
+dotnet_style_readonly_field = true:suggestion
+
+# --- Règles de style signalées par dotnet build (EnforceCodeStyleInBuild) ---
+dotnet_diagnostic.IDE0036.severity = warning   # ordre des modificateurs
+dotnet_diagnostic.IDE0051.severity = warning   # membre privé jamais utilisé
+dotnet_diagnostic.IDE0052.severity = warning   # membre privé jamais lu
+
+# --- Analyseurs .NET (AnalysisLevel latest-recommended) : exceptions ---
+# Textes FR/EN : string.Format suit volontairement la culture courante, réglée sur la langue de l'interface.
+dotnet_diagnostic.CA1305.severity = none
+# CompositeFormat n'existe pas en .NET Framework 4.8 : la correction proposée casserait la cible net48.
+dotnet_diagnostic.CA1863.severity = none
+
+# Correctifs : C# 7.3 (CLAUDE.md, Dossiers). AccessTest les compile en C# récent : ces suggestions
+# proposeraient une syntaxe postérieure à 7.3. Le projet Controle vérifie la version de langage.
+[Correctifs/*.cs]
+csharp_style_namespace_declarations = block_scoped:silent
+dotnet_diagnostic.IDE0057.severity = none   # plage (C# 8)
+dotnet_diagnostic.IDE0056.severity = none   # index depuis la fin (C# 8)
+dotnet_diagnostic.IDE0063.severity = none   # using simplifié (C# 8)
+dotnet_diagnostic.IDE0066.severity = none   # expression switch (C# 8)
+dotnet_diagnostic.IDE0074.severity = none   # affectation composée ??= (C# 8)
+dotnet_diagnostic.IDE0078.severity = none   # combinateurs de motifs (C# 9)
+dotnet_diagnostic.IDE0083.severity = none   # motif not (C# 9)
+dotnet_diagnostic.IDE0090.severity = none   # new() sans type (C# 9)
+dotnet_diagnostic.IDE0161.severity = none   # espace de noms de fichier (C# 10)
+dotnet_diagnostic.IDE0260.severity = none   # motif de propriété (C# 8)
+dotnet_diagnostic.IDE0290.severity = none   # constructeur principal (C# 12)
+dotnet_diagnostic.IDE0300.severity = none   # expressions de collection (C# 12)
+dotnet_diagnostic.IDE0301.severity = none
+dotnet_diagnostic.IDE0303.severity = none
+dotnet_diagnostic.IDE0305.severity = none

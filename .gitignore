@@ -1,0 +1,22 @@
+# Résultats de compilation (Net10 et Net48 ne contiennent que les binaires de Source/AccessTest.csproj)
+bin/
+obj/
+/Net10/
+/Net48/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+# Raccourcis Windows (chemins propres à la machine)
+*.lnk
+
+# Relevés UIA et fichiers temporaires
+releve*.txt
+*.log
+
+# Réglages locaux de Claude Code et script de sauvegarde Dropbox (chemins propres à la machine, non publiés)
+.claude/
+push-dropbox.bat

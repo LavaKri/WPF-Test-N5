@@ -1,0 +1,104 @@
+<UserControl x:Class="AccessTest.OngletUsuels"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Margin="20" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style x:Key="Libelle" TargetType="TextBlock">
+                <Setter Property="TextAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0,0,10,0"/>
+            </Style>
+            <!-- Même aspect que le TextBlock ci-dessus, pour les libellés à touche d'accès (Label + Target). -->
+            <Style x:Key="LibelleTouche" TargetType="Label">
+                <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="0,0,10,0"/>
+            </Style>
+        </Grid.Resources>
+
+        <TextBlock x:Name="LblConfirmation" Style="{StaticResource Libelle}" Grid.Row="0" Grid.Column="0"/>
+        <ComboBox x:Name="CmbConfirmation" Grid.Row="0" Grid.Column="1" Margin="0,4"
+                  SelectedIndex="0">
+            <ComboBoxItem x:Name="ItmAucun"/>
+            <ComboBoxItem x:Name="ItmSms"/>
+            <ComboBoxItem x:Name="ItmEmail"/>
+        </ComboBox>
+
+        <TextBlock x:Name="LblContact" Style="{StaticResource Libelle}" Grid.Row="1" Grid.Column="0"/>
+        <TextBox x:Name="TxtContact" Grid.Row="1" Grid.Column="1" Margin="0,4" IsEnabled="False"/>
+
+        <Label x:Name="LblIdentifiant" Style="{StaticResource LibelleTouche}" Grid.Row="2" Grid.Column="0"
+               Target="{Binding ElementName=TxtIdentifiant}"/>
+        <TextBox x:Name="TxtIdentifiant" Grid.Row="2" Grid.Column="1" Margin="0,4"
+                 AutomationProperties.IsRequiredForForm="True"/>
+
+        <Label x:Name="LblMotDePasse" Style="{StaticResource LibelleTouche}" Grid.Row="3" Grid.Column="0"
+               Target="{Binding ElementName=PwdMotDePasse}"/>
+        <PasswordBox x:Name="PwdMotDePasse" Grid.Row="3" Grid.Column="1" Margin="0,4"
+                     AutomationProperties.IsRequiredForForm="True"/>
+
+        <CheckBox x:Name="ChkResterConnecte" Grid.Row="4" Grid.Column="1" Margin="0,8"
+                  HorizontalAlignment="Left"/>
+
+        <Button x:Name="BtnSeConnecter" Grid.Row="5" Grid.Column="1" Margin="0,4"
+                HorizontalAlignment="Left" MinWidth="120" Padding="12,3"
+                Click="SeConnecter_Click">
+            <Button.ContextMenu>
+                <ContextMenu x:Name="CtxSeConnecter">
+                    <MenuItem x:Name="MnuBtnRegion" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem x:Name="MnuBtnTabulable" IsCheckable="True"/>
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
+
+        <TextBlock x:Name="TblMotDePasseOublie" Grid.Row="6" Grid.Column="1" Margin="0,4" HorizontalAlignment="Left">
+            <Hyperlink x:Name="LnkMotDePasseOublie" Click="MotDePasseOublie_Click">
+                <Hyperlink.ContextMenu>
+                    <ContextMenu x:Name="CtxMotDePasseOublie">
+                        <MenuItem x:Name="MnuLnkLienSeul" IsCheckable="True" IsChecked="True"/>
+                    </ContextMenu>
+                </Hyperlink.ContextMenu>
+                <Run x:Name="RunMotDePasseOublie"/>
+            </Hyperlink>
+        </TextBlock>
+
+        <TextBlock x:Name="LblProgression" Style="{StaticResource Libelle}" Grid.Row="7" Grid.Column="0"/>
+        <Grid Grid.Row="7" Grid.Column="1" Margin="0,12,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" MinWidth="50"/>
+            </Grid.ColumnDefinitions>
+            <ProgressBar x:Name="PrgProgression" Height="20" Minimum="0" Maximum="100" Value="0"/>
+            <TextBlock x:Name="TblPourcentage" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
+        </Grid>
+
+        <TextBlock x:Name="LblResultat" Style="{StaticResource Libelle}" Grid.Row="8" Grid.Column="0"
+                   VerticalAlignment="Top" Margin="0,10,10,0"/>
+        <TextBox x:Name="TxtResultat" Grid.Row="8" Grid.Column="1" Margin="0,8,0,4"
+                 IsReadOnly="True" IsReadOnlyCaretVisible="True" AcceptsReturn="True" TextWrapping="Wrap" MinLines="6"
+                 VerticalScrollBarVisibility="Auto">
+            <TextBox.ContextMenu>
+                <ContextMenu x:Name="CtxResultat">
+                    <MenuItem x:Name="MnuResCurseur" IsCheckable="True" IsChecked="True"/>
+                </ContextMenu>
+            </TextBox.ContextMenu>
+        </TextBox>
+    </Grid>
+</UserControl>
